@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "name": "wefrg",
+    "slug": "wefrg",
+    "description": "dewf",
+    "category": {
+      "name": "ACP Panels",
+      "slug": "acp-panels"
+    },
+    "thickness": "4mm",
+    "finish": "",
+    "isFeatured": true,
+    "isActive": true,
+    "sortOrder": 1,
+    "createdAt": "2026-05-31T16:15:03.963Z"
+  }
+]

@@ -1,0 +1,282 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.NVarChar(100)
+  email     String   @unique @db.NVarChar(150)
+  password  String   @db.NVarChar(255)
+  role      String   @default("EDITOR") @db.NVarChar(20)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("Users")
+}
+
+
+
+model Category {
+  id          Int       @id @default(autoincrement())
+  name        String    @db.NVarChar(100)
+  slug        String    @unique @db.NVarChar(100)
+  description String?   @db.NVarChar(500)
+  image       String?   @db.NVarChar(500)
+  sortOrder   Int       @default(0)
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  products    Product[]
+
+  @@map("Categories")
+}
+
+model Product {
+  id           Int            @id @default(autoincrement())
+  slug         String         @unique @db.NVarChar(150)
+  name         String         @db.NVarChar(200)
+  description  String?        @db.NVarChar(Max)
+  thickness    String?        @db.NVarChar(50)
+  size         String?        @db.NVarChar(100)
+  finish       String?        @db.NVarChar(100)
+  tag          String?        @db.NVarChar(50)
+  brochureUrl  String?        @db.NVarChar(500)
+  inStock      Boolean        @default(true)
+  isFeatured   Boolean        @default(false)
+  sortOrder    Int            @default(0)
+  isActive     Boolean        @default(true)
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  categoryId   Int
+  category     Category       @relation(fields: [categoryId], references: [id])
+  images       ProductImage[]
+  specs        ProductSpec[]
+  inquiries    Inquiry[]
+
+  @@map("Products")
+}
+
+model ProductImage {
+  id        Int     @id @default(autoincrement())
+  url       String  @db.NVarChar(500)
+  altText   String? @db.NVarChar(200)
+  isPrimary Boolean @default(false)
+  sortOrder Int     @default(0)
+  productId Int
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("ProductImages")
+}
+
+model ProductSpec {
+  id        Int     @id @default(autoincrement())
+  specKey   String  @db.NVarChar(100)
+  specValue String  @db.NVarChar(200)
+  productId Int
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("ProductSpecs")
+}
+
+model Project {
+  id           Int            @id @default(autoincrement())
+  slug         String         @unique @db.NVarChar(150)
+  title        String         @db.NVarChar(200)
+  location     String?        @db.NVarChar(200)
+  year         Int?
+  category     String?        @db.NVarChar(100)
+  client       String?        @db.NVarChar(200)
+  description  String?        @db.NVarChar(Max)
+  productsUsed String?        @db.NVarChar(500)
+  isFeatured   Boolean        @default(false)
+  isActive     Boolean        @default(true)
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  images       ProjectImage[]
+
+  @@map("Projects")
+}
+
+model ProjectImage {
+  id        Int     @id @default(autoincrement())
+  url       String  @db.NVarChar(500)
+  altText   String? @db.NVarChar(200)
+  isPrimary Boolean @default(false)
+  sortOrder Int     @default(0)
+  projectId Int
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@map("ProjectImages")
+}
+
+model BlogCategory {
+  id    Int    @id @default(autoincrement())
+  name  String @db.NVarChar(100)
+  slug  String @unique @db.NVarChar(100)
+  posts Blog[]
+
+  @@map("BlogCategories")
+}
+
+model Blog {
+  id             Int          @id @default(autoincrement())
+  slug           String       @unique @db.NVarChar(150)
+  title          String       @db.NVarChar(300)
+  excerpt        String?      @db.NVarChar(500)
+  content        String?      @db.NVarChar(Max)
+  coverImage     String?      @db.NVarChar(500)
+  author         String?      @db.NVarChar(100)
+  authorAvatar   String?      @db.NVarChar(500)
+  readTime       Int?
+  seoTitle       String?      @db.NVarChar(200)
+  seoDescription String?      @db.NVarChar(300)
+  isPublished    Boolean      @default(false)
+  publishedAt    DateTime?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  categoryId     Int?
+  category       BlogCategory? @relation(fields: [categoryId], references: [id])
+  tags           BlogTag[]
+
+  @@map("Blogs")
+}
+
+model Tag {
+  id    Int       @id @default(autoincrement())
+  name  String    @unique @db.NVarChar(100)
+  slug  String    @unique @db.NVarChar(100)
+  blogs BlogTag[]
+
+  @@map("Tags")
+}
+
+model BlogTag {
+  blogId Int
+  tagId  Int
+  blog   Blog @relation(fields: [blogId], references: [id], onDelete: Cascade)
+  tag    Tag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([blogId, tagId])
+  @@map("BlogTags")
+}
+
+model Testimonial {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.NVarChar(100)
+  company   String?  @db.NVarChar(200)
+  role      String?  @db.NVarChar(100)
+  message   String   @db.NVarChar(Max)
+  rating    Int      @default(5)
+  avatar    String?  @db.NVarChar(500)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  @@map("Testimonials")
+}
+
+model Dealer {
+  id        Int          @id @default(autoincrement())
+  name      String       @db.NVarChar(100)
+  company   String       @db.NVarChar(200)
+  email     String       @db.NVarChar(150)
+  phone     String?      @db.NVarChar(50)
+  country   String?      @db.NVarChar(100)
+  city      String?      @db.NVarChar(100)
+  address   String?      @db.NVarChar(500)
+  lat       Float?
+  lng       Float?
+  message   String?      @db.NVarChar(Max)
+  status    String       @default("PENDING") @db.NVarChar(20)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  @@map("Dealers")
+}
+
+
+
+model Inquiry {
+  id        Int           @id @default(autoincrement())
+  name      String        @db.NVarChar(100)
+  email     String        @db.NVarChar(150)
+  phone     String?       @db.NVarChar(50)
+  message   String        @db.NVarChar(Max)
+  status    String        @default("NEW") @db.NVarChar(20)
+  ipAddress String?       @db.NVarChar(50)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  productId Int?
+  product   Product?      @relation(fields: [productId], references: [id])
+
+  @@map("Inquiries")
+}
+
+
+
+model Newsletter {
+  id          Int      @id @default(autoincrement())
+  email       String   @unique @db.NVarChar(150)
+  isActive    Boolean  @default(true)
+  subscribedAt DateTime @default(now())
+
+  @@map("Newsletters")
+}
+
+model Certificate {
+  id          Int      @id @default(autoincrement())
+  name        String   @db.NVarChar(200)
+  issuedBy    String?  @db.NVarChar(200)
+  issuedDate  DateTime?
+  expiryDate  DateTime?
+  fileUrl     String?  @db.NVarChar(500)
+  imageUrl    String?  @db.NVarChar(500)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+
+  @@map("Certificates")
+}
+
+model GalleryItem {
+  id        Int         @id @default(autoincrement())
+  title     String      @db.NVarChar(200)
+  url       String      @db.NVarChar(500)
+  thumbnail String?     @db.NVarChar(500)
+  type      String      @default("IMAGE") @db.NVarChar(10)
+  category  String?     @db.NVarChar(100)
+  sortOrder Int         @default(0)
+  isActive  Boolean     @default(true)
+  createdAt DateTime    @default(now())
+
+  @@map("GalleryItems")
+}
+
+
+
+model Setting {
+  id        Int      @id @default(autoincrement())
+  key       String   @unique @db.NVarChar(100)
+  value     String?  @db.NVarChar(Max)
+  group     String?  @db.NVarChar(50)
+  updatedAt DateTime @updatedAt
+
+  @@map("Settings")
+}
+
+model AuditLog {
+  id         Int      @id @default(autoincrement())
+  userId     Int?
+  action     String   @db.NVarChar(100)
+  entity     String   @db.NVarChar(100)
+  entityId   Int?
+  oldValues  String?  @db.NVarChar(Max)
+  newValues  String?  @db.NVarChar(Max)
+  ipAddress  String?  @db.NVarChar(50)
+  createdAt  DateTime @default(now())
+
+  @@map("AuditLogs")
+}
