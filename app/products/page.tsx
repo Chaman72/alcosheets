@@ -12,7 +12,6 @@ const products = [
   { name: "Marble Stone Finish", category: "Wood & Stone", thickness: "4mm", size: "1220 x 2440mm", finish: "Digital Print", tag: "Trending", img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80" },
   { name: "Nano Self-Clean Panel", category: "Special Finish", thickness: "4mm", size: "1220 x 2440mm", finish: "Nano Coating", tag: "New", img: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80" },
   { name: "Anti-Bacterial Panel", category: "Special Finish", thickness: "4mm", size: "1220 x 2440mm", finish: "Special Coat", tag: "New", img: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=600&q=80" },
-  { name: "Perforated ACP Panel", category: "ACP Panels", thickness: "3mm", size: "1220 x 2440mm", finish: "PVDF Coated", tag: "", img: "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&q=80" },
 ];
 
 const tagColors: Record<string, string> = {

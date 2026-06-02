@@ -86,7 +86,7 @@ export default function ContactPage() {
             <h2 className="text-2xl font-bold text-gray-900 mb-6">Our Office</h2>
             <div className="space-y-6 mb-10">
               {[
-                { icon: MapPin, label: "Address", value: "Al Asmawi Warehouses Building - Block A, Warehouse A5, Plot No. 103-0, Land DM No. 533-143, Saih Shuaib 4, PO Box: 18984, Dubai Industrial City, Dubai, UAE" },
+                { icon: MapPin, label: "Address", value: "Al Asmawi Warehouses Building, Saih Shuaib 4, Dubai Industrial City, Dubai, UAE" },
                 { icon: Phone, label: "Phone", value: "+971 54 580 4047" },
                 { icon: Mail, label: "Email", value: "info@alcosheets.com" },
               ].map(({ icon: Icon, label, value }) => (

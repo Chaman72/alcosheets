@@ -38,7 +38,6 @@ const products = [
   { name: "Fire Rated Panels", desc: "FR core panels meeting international fire safety standards.", emoji: "🔥" },
   { name: "Mirror Finish", desc: "Reflective surface panels for premium architectural designs.", emoji: "✨" },
   { name: "Cladding Sheets", desc: "Durable exterior cladding for commercial & residential use.", emoji: "🏢" },
-  { name: "Bond Panels", desc: "Strong bonded panels with superior weather resistance.", emoji: "💪" },
   { name: "Wooden Finish", desc: "Natural wood-look ACP panels for elegant interiors.", emoji: "🪵" },
 ];
 
